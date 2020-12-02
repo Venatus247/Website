@@ -72,9 +72,17 @@ gulp.task('ts', _ => {
     //return tsProject.src().pipe(tsProject()).js.pipe(gulp.dest(`${dist}/js`))
 })
 
+gulp.task('assets', () => {
+    return gulp.src(`${src}/assets/**/*`)
+        .pipe(plumber((error) => {
+            gUtil.log(error.message)
+        }))
+        .pipe(gulp.dest(`${dist}/assets`))
+})
+
 gulp.task('watch', _ => {
     gulp.watch([`${src}/*.html`], gulp.series('html'))
     gulp.watch([`${src}/sass/**/*.sass`], gulp.series('sass'))
 });
 
-gulp.task('default', gulp.parallel('html', 'sass', 'ts'))
+gulp.task('default', gulp.parallel('html', 'sass', 'ts', 'assets'))
